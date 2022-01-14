@@ -44,7 +44,6 @@ class Login extends React.Component {
                   redirect: true,
                 });
               });
-              // colocar pra quando acabar ele virar false -- redirect e search junto acho
             } }
           >
             Entrar
