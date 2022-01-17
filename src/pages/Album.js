@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
-import { getFavoriteSongs, addSong } from '../services/favoriteSongsAPI';
+import { getFavoriteSongs, addSong, removeSong } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -21,34 +21,37 @@ class Album extends React.Component {
     this.devolveMusicas();
   }
 
-  atualizaState = (objSong) => {
-    this.setState({ loadingSongs: true }, async () => {
-      await addSong(objSong);
-      const favoriteSongs = await getFavoriteSongs();
-      const idFav = favoriteSongs.map((musica) => musica.trackId);
-      this.setState({
-        loadingSongs: false,
-        /* favoriteSongs, */
-        idFav,
-      });
-    });
+  atualizaState = (objSong, teste) => {
+    if (teste.target.checked === true) this.adicionaMusicaFav(objSong, addSong);
+    else this.adicionaMusicaFav(objSong, removeSong);
   }
 
   devolveMusicas = async () => {
     const { match: { params: { id } } } = this.props;
-    const dataAlbum = await getMusics(id); // chamar denovo
+    const dataAlbum = await getMusics(id);
     const favoriteSongs = await getFavoriteSongs();
     const idFav = favoriteSongs.map((musica) => musica.trackId);
     this.setState({ loading: true }, () => {
       this.setState({
         idFav,
-        /* favoriteSongs, */
         dataAlbum,
         loading: false,
         loadingSongs: false,
       });
     });
   };
+
+  adicionaMusicaFav(objSong, func) {
+    this.setState({ loadingSongs: true }, async () => {
+      await func(objSong);
+      const favoriteSongs = await getFavoriteSongs();
+      const idFav = favoriteSongs.map((musica) => musica.trackId);
+      this.setState({
+        loadingSongs: false,
+        idFav,
+      });
+    });
+  }
 
   render() {
     const { dataAlbum, loading, idFav, loadingSongs } = this.state;
