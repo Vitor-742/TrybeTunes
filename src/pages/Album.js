@@ -45,7 +45,7 @@ class Album extends React.Component {
         /* favoriteSongs, */
         dataAlbum,
         loading: false,
-        loadingSongs: false
+        loadingSongs: false,
       });
     });
   };
@@ -61,12 +61,10 @@ class Album extends React.Component {
           <div>
             <h2 data-testid="artist-name">{dataAlbum[0].artistName}</h2>
             <h3 data-testid="album-name">
-            {`${dataAlbum[0].collectionName} - ${dataAlbum[0].artistName}`}
-          </h3>
-          <img src={ dataAlbum[0].artworkUrl100 } alt={ dataAlbum[0].collectionId } />
+              {`${dataAlbum[0].collectionName} - ${dataAlbum[0].artistName}`}
+            </h3>
+            <img src={ dataAlbum[0].artworkUrl100 } alt={ dataAlbum[0].collectionId } />
           </div>
-          
-          
         )}
         {loadingSongs
           ? <Loading />
