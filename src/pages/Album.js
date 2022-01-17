@@ -12,6 +12,7 @@ class Album extends React.Component {
     this.state = {
       dataAlbum: [],
       loading: true,
+      loadingSongs: true,
       idFav: [],
     };
   }
@@ -21,12 +22,12 @@ class Album extends React.Component {
   }
 
   atualizaState = (objSong) => {
-    this.setState({ loading: true }, async () => {
+    this.setState({ loadingSongs: true }, async () => {
       await addSong(objSong);
       const favoriteSongs = await getFavoriteSongs();
       const idFav = favoriteSongs.map((musica) => musica.trackId);
       this.setState({
-        loading: false,
+        loadingSongs: false,
         /* favoriteSongs, */
         idFav,
       });
@@ -44,31 +45,30 @@ class Album extends React.Component {
         /* favoriteSongs, */
         dataAlbum,
         loading: false,
+        loadingSongs: false
       });
     });
   };
 
   render() {
-    const { dataAlbum, loading, idFav } = this.state;
+    const { dataAlbum, loading, idFav, loadingSongs } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
         {loading ? (
           <Loading />
         ) : (
-          <h2 data-testid="artist-name">{dataAlbum[0].artistName}</h2>
-        )}
-        {loading ? (
-          <Loading />
-        ) : (
-          <h3 data-testid="album-name">
+          <div>
+            <h2 data-testid="artist-name">{dataAlbum[0].artistName}</h2>
+            <h3 data-testid="album-name">
             {`${dataAlbum[0].collectionName} - ${dataAlbum[0].artistName}`}
           </h3>
+          <img src={ dataAlbum[0].artworkUrl100 } alt={ dataAlbum[0].collectionId } />
+          </div>
+          
+          
         )}
-        {loading
-          ? <Loading />
-          : <img src={ dataAlbum[0].artworkUrl100 } alt={ dataAlbum[0].collectionId } />}
-        {loading
+        {loadingSongs
           ? <Loading />
           : dataAlbum
             .filter((musica, index) => index !== 0)

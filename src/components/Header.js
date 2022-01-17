@@ -35,9 +35,9 @@ class Header extends React.Component {
         <Link to="/search" data-testid="link-to-search">Pesquisa</Link>
         <Link to="/favorites" data-testid="link-to-favorites">Favoritas</Link>
         <Link to="/profile" data-testid="link-to-profile">Perfil</Link>
-        <p data-testid="header-user-name">
+        <div data-testid="header-user-name">
           {(loading) ? <Loading /> : usuario}
-        </p>
+        </div>
       </header>
     );
   }

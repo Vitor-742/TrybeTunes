@@ -26,7 +26,7 @@ CardAlbum.propTypes = {
     artistName: PropTypes.string.isRequired,
     artworkUrl100: PropTypes.string.isRequired,
     collectionName: PropTypes.string.isRequired,
-    collectionId: PropTypes.string.isRequired,
+    collectionId: PropTypes.number.isRequired,
   }).isRequired,
 };
 

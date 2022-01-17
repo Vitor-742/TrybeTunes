@@ -36,7 +36,7 @@ class MusicCard extends React.Component {
             id={ trackId }
             data-testid={ `checkbox-music-${trackId}` }
             checked={ checked }
-            onClick={ () => handChange(Music) }
+            onChange={ () => handChange(Music) }
           />
         </label>
       </div>
@@ -48,7 +48,7 @@ MusicCard.propTypes = {
   Music: PropTypes.shape({
     trackName: PropTypes.string.isRequired,
     previewUrl: PropTypes.string.isRequired,
-    trackId: PropTypes.string.isRequired,
+    trackId: PropTypes.number.isRequired,
   }).isRequired,
   checked: PropTypes.bool.isRequired,
   handChange: PropTypes.func.isRequired,
