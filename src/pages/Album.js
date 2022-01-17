@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../components/MusicCard';
+import { getFavoriteSongs, addSong } from '../services/favoriteSongsAPI';
 
 class Album extends React.Component {
   constructor() {
@@ -11,6 +12,7 @@ class Album extends React.Component {
     this.state = {
       dataAlbum: [],
       loading: true,
+      idFav: [],
     };
   }
 
@@ -18,11 +20,28 @@ class Album extends React.Component {
     this.devolveMusicas();
   }
 
+  atualizaState = (objSong) => {
+    this.setState({ loading: true }, async () => {
+      await addSong(objSong);
+      const favoriteSongs = await getFavoriteSongs();
+      const idFav = favoriteSongs.map((musica) => musica.trackId);
+      this.setState({
+        loading: false,
+        /* favoriteSongs, */
+        idFav,
+      });
+    });
+  }
+
   devolveMusicas = async () => {
     const { match: { params: { id } } } = this.props;
-    const dataAlbum = await getMusics(id);
+    const dataAlbum = await getMusics(id); // chamar denovo
+    const favoriteSongs = await getFavoriteSongs();
+    const idFav = favoriteSongs.map((musica) => musica.trackId);
     this.setState({ loading: true }, () => {
       this.setState({
+        idFav,
+        /* favoriteSongs, */
         dataAlbum,
         loading: false,
       });
@@ -30,7 +49,7 @@ class Album extends React.Component {
   };
 
   render() {
-    const { dataAlbum, loading } = this.state;
+    const { dataAlbum, loading, idFav } = this.state;
     return (
       <div data-testid="page-album">
         <Header />
@@ -49,11 +68,18 @@ class Album extends React.Component {
         {loading
           ? <Loading />
           : <img src={ dataAlbum[0].artworkUrl100 } alt={ dataAlbum[0].collectionId } />}
-        {dataAlbum
-          .filter((musica, index) => index !== 0)
-          .map((musica) => (
-            <MusicCard Music={ musica } key={ musica.trackId } />
-          ))}
+        {loading
+          ? <Loading />
+          : dataAlbum
+            .filter((musica, index) => index !== 0)
+            .map((musica) => (
+              <MusicCard
+                Music={ musica }
+                key={ musica.trackId }
+                checked={ idFav.includes(musica.trackId) }
+                handChange={ this.atualizaState }
+              />
+            ))}
       </div>
     );
   }
