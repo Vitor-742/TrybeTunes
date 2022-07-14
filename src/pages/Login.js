@@ -31,6 +31,7 @@ class Login extends React.Component {
             type="text"
             data-testid="login-name-input"
             onChange={ this.loginNameInput }
+            placeholder="Seu nome"
           />
           <button
             type="button"
