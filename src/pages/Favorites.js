@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
-// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
+import MusicCard from '../components/MusicCard';
 
 class Favorites extends React.Component {
   constructor() {
@@ -16,11 +16,13 @@ class Favorites extends React.Component {
       <div data-testid="page-favorites">
         <Header />
         {favoriteSongs.map((item) => (
-          <p key={ item.trackName }>
-            -
-            {' '}
-            {item.trackName}
-          </p>))}
+          <MusicCard
+            Music={ item }
+            key={ item.trackId }
+            checked
+            handChange={ () => false }
+          />
+        ))}
       </div>
     );
   }

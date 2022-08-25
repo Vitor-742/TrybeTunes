@@ -54,6 +54,11 @@ class Search extends React.Component {
                 data-testid="search-artist-input"
                 onChange={ this.habilitaBotao }
                 placeholder="Nome"
+                onKeyUp={ (e) => {
+                  if (e.key === 'Enter') {
+                    this.procuraAlbum();
+                  }
+                } }
               />
               <button
                 type="button"
@@ -61,7 +66,7 @@ class Search extends React.Component {
                 disabled={ inputButton }
                 onClick={ this.procuraAlbum }
               >
-                Pesquisar Música
+                Pesquisar Álbum
               </button>
             </div>
           )}

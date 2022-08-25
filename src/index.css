@@ -17,3 +17,29 @@ code {
   display: flex;
   justify-content: center;
 }
+
+header {
+  background-image: linear-gradient(to top, rgba(120, 27, 163, 0.856), rgb(120, 27, 163));
+  /* background-color: rgb(120, 27, 163); */
+  margin: 0;
+  display: flex;
+  padding: 35px;
+  justify-content: space-around;
+}
+
+h1 {
+  color: aliceblue;
+  margin: 0;
+  align-self: center;
+}
+
+/* Header {
+} */
+a {
+  text-decoration: none;
+  color: black
+}
+
+header a, header p {
+  color: aliceblue;
+}
